@@ -1,7 +1,3 @@
-# 📄 README.md を日本語で作り直しましょう
-
-### `README.md` を開いて、全部消して以下を貼り付け → `Ctrl + S`
-
 ```markdown
 # 🛰️ 衛星管制システム (Satellite Control System)
 
