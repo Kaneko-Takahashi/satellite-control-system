@@ -1,0 +1,76 @@
+{% extends "satellite/base.html" %}
+
+{% block title %}Commands - Satellite Control System{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col">
+        <h2><i class="bi bi-terminal"></i> Commands</h2>
+    </div>
+    <div class="col-auto">
+        <a href="{% url 'satellite:command_create' %}" class="btn btn-success">
+            <i class="bi bi-send"></i> New Command
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Satellite</th>
+                <th>Type</th>
+                <th>Command Code</th>
+                <th>Status</th>
+                <th>Operator</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cmd in commands %}
+            <tr>
+                <td>{{ cmd.pk }}</td>
+                <td>{{ cmd.satellite.name }}</td>
+                <td>{{ cmd.get_command_type_display }}</td>
+                <td><code>{{ cmd.command_code }}</code></td>
+                <td>
+                    <span class="badge
+                        {% if cmd.status == 'executed' %}bg-success
+                        {% elif cmd.status == 'acknowledged' %}bg-primary
+                        {% elif cmd.status == 'sent' %}bg-info
+                        {% elif cmd.status == 'pending' %}bg-warning text-dark
+                        {% elif cmd.status == 'failed' %}bg-danger
+                        {% else %}bg-secondary{% endif %}">
+                        {{ cmd.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ cmd.operator }}</td>
+                <td>{{ cmd.created_at|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <a href="{% url 'satellite:command_detail' cmd.pk %}"
+                       class="btn btn-sm btn-outline-info">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a href="{% url 'satellite:command_update' cmd.pk %}"
+                       class="btn btn-sm btn-outline-warning">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{% url 'satellite:command_delete' cmd.pk %}"
+                       class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center text-muted">
+                    No commands yet.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

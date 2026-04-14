@@ -1,0 +1,121 @@
+{% extends "satellite/base.html" %}
+
+{% block title %}{{ title }} - Satellite Control System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card bg-dark border-secondary">
+            <div class="card-header">
+                <h3><i class="bi bi-graph-up"></i> {{ title }}</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+
+                    <h5 class="text-info mb-3">Basic Info</h5>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="{{ form.satellite.id_for_label }}" class="form-label">
+                                {{ form.satellite.label }}
+                            </label>
+                            {{ form.satellite }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.received_at.id_for_label }}" class="form-label">
+                                {{ form.received_at.label }}
+                            </label>
+                            {{ form.received_at }}
+                        </div>
+                    </div>
+
+                    <h5 class="text-danger mb-3">
+                        <i class="bi bi-thermometer-half"></i> Temperature
+                    </h5>
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">{{ form.temperature_battery.label }}</label>
+                            {{ form.temperature_battery }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">{{ form.temperature_solar_panel.label }}</label>
+                            {{ form.temperature_solar_panel }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">{{ form.temperature_payload.label }}</label>
+                            {{ form.temperature_payload }}
+                        </div>
+                    </div>
+
+                    <h5 class="text-warning mb-3">
+                        <i class="bi bi-lightning"></i> Power
+                    </h5>
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">{{ form.voltage_bus.label }}</label>
+                            {{ form.voltage_bus }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">{{ form.current_bus.label }}</label>
+                            {{ form.current_bus }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">{{ form.power_generation.label }}</label>
+                            {{ form.power_generation }}
+                        </div>
+                    </div>
+
+                    <h5 class="text-primary mb-3">
+                        <i class="bi bi-compass"></i> Attitude
+                    </h5>
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">{{ form.attitude_roll.label }}</label>
+                            {{ form.attitude_roll }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">{{ form.attitude_pitch.label }}</label>
+                            {{ form.attitude_pitch }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">{{ form.attitude_yaw.label }}</label>
+                            {{ form.attitude_yaw }}
+                        </div>
+                    </div>
+
+                    <h5 class="text-success mb-3">
+                        <i class="bi bi-heart-pulse"></i> Health Status
+                    </h5>
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            {{ form.health_status }}
+                        </div>
+                    </div>
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Input errors:</strong>
+                        <ul class="mb-0">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-info">
+                            <i class="bi bi-check-circle"></i> Save
+                        </button>
+                        <a href="{% url 'satellite:telemetry_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

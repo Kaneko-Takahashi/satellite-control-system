@@ -1,0 +1,123 @@
+{% extends "satellite/base.html" %}
+
+{% block title %}Telemetry Detail - Satellite Control System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card bg-dark border-secondary">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3><i class="bi bi-graph-up"></i> Telemetry Detail</h3>
+                <span class="badge
+                    {% if telemetry.health_status == 'nominal' %}bg-success
+                    {% elif telemetry.health_status == 'warning' %}bg-warning text-dark
+                    {% else %}bg-danger{% endif %} fs-6">
+                    {{ telemetry.get_health_status_display }}
+                </span>
+            </div>
+            <div class="card-body">
+
+                <h5 class="text-info mb-3">Basic Info</h5>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <p><strong>Satellite:</strong> {{ telemetry.satellite.name }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Received At:</strong> {{ telemetry.received_at|date:"Y-m-d H:i:s" }}</p>
+                    </div>
+                </div>
+
+                <h5 class="text-danger mb-3">
+                    <i class="bi bi-thermometer-half"></i> Temperature
+                </h5>
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card bg-black border-secondary text-center p-3">
+                            <small class="text-muted">Battery</small>
+                            <h2 class="{% if telemetry.temperature_battery > 40 %}text-danger
+                                      {% elif telemetry.temperature_battery > 30 %}text-warning
+                                      {% else %}text-success{% endif %}">
+                                {{ telemetry.temperature_battery }} C
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-black border-secondary text-center p-3">
+                            <small class="text-muted">Solar Panel</small>
+                            <h2>{{ telemetry.temperature_solar_panel }} C</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-black border-secondary text-center p-3">
+                            <small class="text-muted">Payload</small>
+                            <h2>{{ telemetry.temperature_payload }} C</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="text-warning mb-3">
+                    <i class="bi bi-lightning"></i> Power
+                </h5>
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card bg-black border-secondary text-center p-3">
+                            <small class="text-muted">Bus Voltage</small>
+                            <h2 class="{% if telemetry.voltage_bus < 24 %}text-danger
+                                      {% elif telemetry.voltage_bus < 26 %}text-warning
+                                      {% else %}text-success{% endif %}">
+                                {{ telemetry.voltage_bus }} V
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-black border-secondary text-center p-3">
+                            <small class="text-muted">Bus Current</small>
+                            <h2>{{ telemetry.current_bus }} A</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-black border-secondary text-center p-3">
+                            <small class="text-muted">Power Generation</small>
+                            <h2>{{ telemetry.power_generation }} W</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="text-primary mb-3">
+                    <i class="bi bi-compass"></i> Attitude
+                </h5>
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card bg-black border-secondary text-center p-3">
+                            <small class="text-muted">Roll</small>
+                            <h2>{{ telemetry.attitude_roll }} deg</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-black border-secondary text-center p-3">
+                            <small class="text-muted">Pitch</small>
+                            <h2>{{ telemetry.attitude_pitch }} deg</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-black border-secondary text-center p-3">
+                            <small class="text-muted">Yaw</small>
+                            <h2>{{ telemetry.attitude_yaw }} deg</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a href="{% url 'satellite:telemetry_delete' telemetry.pk %}"
+                       class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                    <a href="{% url 'satellite:telemetry_list' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

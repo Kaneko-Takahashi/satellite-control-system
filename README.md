@@ -416,6 +416,229 @@ Gitで管理しなくてよいファイルを指定するリストです。
 
 ---
 
+## Day 2 で追加した内容
+
+### forms.py（入力フォーム）
+
+ユーザーが画面で入力するフォームの定義です。
+たとえるなら、「申請書のテンプレート」です。
+どの項目を入力させるか、どんな入力欄にするかを決めます。
+
+3つのフォームを作成しました：
+
+| フォーム名 | 用途 | たとえ |
+|-----------|------|--------|
+| SatelliteForm | 衛星の登録・編集画面 | 衛星の登録申請書 |
+| CommandForm | コマンド送信画面 | コマンドの指示書 |
+| TelemetryDataForm | テレメトリ手動入力画面 | データの記録用紙 |
+
+#### forms.py の重要な用語
+
+| 用語 | 意味 | たとえ |
+|------|------|--------|
+| ModelForm | モデル（テーブル）に基づいた自動フォーム | テーブルの列をそのまま入力欄にする |
+| fields | フォームに表示する項目のリスト | 申請書に載せる項目を選ぶ |
+| widgets | 入力欄の見た目を指定 | テキスト欄？プルダウン？数字欄？ |
+| form-control | Bootstrapのデザインクラス | 入力欄をきれいに表示する |
+| placeholder | 入力欄のヒント文字 | 薄いグレーの「例：〇〇」の文字 |
+
+---
+
+### views.py（画面ロジック）
+
+ユーザーが画面にアクセスしたとき「何を表示するか」を決めるロジックです。
+たとえるなら、「お店の接客マニュアル」です。
+
+ここでCRUD操作を全て実装しています：
+
+| 操作 | 英語 | やること |
+|------|------|---------|
+| C | Create | 新しいデータを作成 |
+| R | Read | データを表示（一覧・詳細） |
+| U | Update | データを編集 |
+| D | Delete | データを削除 |
+
+#### ビューの基本パターン
+
+    def 関数名(request):
+        1. データを取得する
+        2. テンプレート（HTML）にデータを渡す
+        3. 画面を表示する
+
+#### Create（作成）の流れ
+
+    ユーザーがフォーム画面にアクセス（GET）
+        → 空のフォームを表示
+    ユーザーが入力して送信ボタンを押す（POST）
+        → データを保存して一覧画面に戻る
+
+#### views.py の重要な用語
+
+| 用語 | 意味 | たとえ |
+|------|------|--------|
+| request | ユーザーからのリクエスト情報 | お客さんの注文内容 |
+| request.method | GET（表示）かPOST（送信）か | 「見せて」か「注文します」か |
+| render | テンプレートにデータを渡して画面を返す | 注文票を見て料理を出す |
+| redirect | 別の画面に移動する | 「あちらのカウンターへどうぞ」 |
+| get_object_or_404 | データを取得。無ければ404エラー | 在庫を確認。無ければ「品切れ」 |
+| messages.success | 成功メッセージを表示 | 「ご注文ありがとうございます」の表示 |
+| context | テンプレートに渡すデータの辞書 | 料理と一緒に渡すメニュー表 |
+| form.is_valid() | 入力内容が正しいかチェック | 記入漏れがないか確認 |
+| form.save() | データをデータベースに保存 | 注文票を厨房に渡す |
+| select_related | 関連テーブルを一緒に取得（高速化） | 注文と一緒にお客さん情報も取る |
+| pk | Primary Key（データの識別番号） | お客さん番号、注文番号 |
+
+---
+
+### urls.py（URL定義）
+
+「どのURLにアクセスしたら、どの画面を表示するか」を定義するファイルです。
+たとえるなら、「お店の案内板・フロアマップ」です。
+
+2つのファイルで構成されています：
+
+    config/urls.py      → 全体のURL（ビルの入口案内）
+    satellite/urls.py   → アプリのURL（お店の中の案内）
+
+#### URL一覧表
+
+| URL | 画面 | CRUD |
+|-----|------|------|
+| / | ダッシュボード | Read |
+| /satellites/ | 衛星一覧 | Read |
+| /satellites/create/ | 衛星登録 | Create |
+| /satellites/1/edit/ | 衛星編集（ID=1） | Update |
+| /satellites/1/delete/ | 衛星削除（ID=1） | Delete |
+| /commands/ | コマンド一覧 | Read |
+| /commands/create/ | コマンド作成 | Create |
+| /commands/1/ | コマンド詳細（ID=1） | Read |
+| /commands/1/send/ | コマンド送信実行 | Update |
+| /commands/1/edit/ | コマンド編集 | Update |
+| /commands/1/delete/ | コマンド削除 | Delete |
+| /telemetry/ | テレメトリ一覧 | Read |
+| /telemetry/create/ | テレメトリ登録 | Create |
+| /telemetry/1/ | テレメトリ詳細 | Read |
+| /telemetry/1/delete/ | テレメトリ削除 | Delete |
+
+#### urls.py の重要な用語
+
+| 用語 | 意味 | たとえ |
+|------|------|--------|
+| path() | URLとビューを結びつける | 「この住所に来たらこの人が対応」 |
+| name="..." | URLに名前をつける | 住所にニックネームをつける |
+| int:pk | URLの中に数字（ID）を含める | 「注文番号3番のお客様」 |
+| include() | 別のurls.pyを読み込む | 「詳しくはこちらを参照」 |
+| app_name | アプリの名前空間 | 「satellite:command_list」のように使える |
+
+---
+
+### HTMLテンプレート（画面デザイン）
+
+ユーザーに見せる「画面のデザイン」を定義するHTMLファイルです。
+たとえるなら、「お店の内装デザイン」です。
+
+以下の11ファイルを作成しました：
+
+| ファイル | 用途 |
+|---------|------|
+| base.html | 共通レイアウト（全ページの枠組み） |
+| dashboard.html | ダッシュボード（トップページ） |
+| satellite_list.html | 衛星一覧 |
+| satellite_form.html | 衛星登録・編集フォーム |
+| satellite_confirm_delete.html | 削除確認画面（共通） |
+| command_list.html | コマンド一覧 |
+| command_form.html | コマンド送信フォーム |
+| command_detail.html | コマンド詳細 |
+| telemetry_list.html | テレメトリ一覧 |
+| telemetry_form.html | テレメトリ登録フォーム |
+| telemetry_detail.html | テレメトリ詳細 |
+
+#### テンプレートの重要な用語
+
+| 用語 | 意味 | たとえ |
+|------|------|--------|
+| {% extends "base.html" %} | 共通レイアウトを継承する | 「お店の外装はそのまま使う」 |
+| {% block content %} | 差し替え可能なコンテンツ部分 | 陳列スペースに商品を並べる |
+| {{ 変数名 }} | データを画面に表示する | 渡されたメモの内容を見せる |
+| {% for item in list %} | データを繰り返し表示 | 一覧表の各行を1つずつ表示 |
+| {% if ... %} | 条件分岐 | 「データがあれば表示、なければメッセージ」 |
+| {% csrf_token %} | セキュリティ用トークン（フォームに必須） | 「本人確認の印鑑」 |
+| {% url 'name' %} | URL名からアドレスを自動生成 | 案内板のリンク |
+| {{ value|date:"Y-m-d" }} | データをフォーマットして表示 | 日時を見やすい形に変換 |
+
+#### テレメトリ画面の色分けルール
+
+| 条件 | 色 | 意味 |
+|------|-----|------|
+| バッテリー温度 > 40 C | 赤 | 危険 |
+| バッテリー温度 > 30 C | 黄 | 注意 |
+| バッテリー温度 <= 30 C | 緑 | 正常 |
+| バス電圧 < 24 V | 赤 | 危険 |
+| バス電圧 < 26 V | 黄 | 注意 |
+| バス電圧 >= 26 V | 緑 | 正常 |
+
+---
+
+### admin.py（Django管理画面）
+
+Djangoに標準搭載されている「管理画面」の設定ファイルです。
+たとえるなら、「お店のバックヤード（裏方管理室）」です。
+ブラウザからデータの追加・編集・削除ができます。
+
+#### admin.py の重要な用語
+
+| 用語 | 意味 | たとえ |
+|------|------|--------|
+| @admin.register(Model) | モデルを管理画面に登録 | 「この商品を管理対象にする」 |
+| list_display | 一覧画面で表示する列 | 「一覧表にどの列を見せるか」 |
+| list_filter | 絞り込みフィルターを表示 | 「ステータスで絞り込める」 |
+| search_fields | 検索ボックスで検索できる項目 | 「名前やIDで検索できる」 |
+
+#### 管理画面のアクセス方法
+
+    URL: http://localhost:8000/admin/
+    ユーザー名: admin
+    パスワード: （createsuperuserで設定したもの）
+
+---
+
+### Day 2 の実行手順まとめ
+
+    Step 1:  forms.py を作成（satellite/forms.py）
+    Step 2:  views.py を編集（satellite/views.py）
+    Step 3:  urls.py を作成（satellite/urls.py）
+    Step 4:  config/urls.py を編集
+    Step 5:  テンプレートフォルダを作成
+    Step 6:  base.html を作成
+    Step 7:  dashboard.html を作成
+    Step 8:  satellite_list.html を作成
+    Step 9:  satellite_form.html を作成
+    Step 10: satellite_confirm_delete.html を作成
+    Step 11: command_list.html を作成
+    Step 12: command_form.html を作成
+    Step 13: command_detail.html を作成
+    Step 14: telemetry_list.html を作成
+    Step 15: telemetry_form.html を作成
+    Step 16: telemetry_detail.html を作成
+    Step 17: admin.py を編集
+    Step 18: createsuperuser でスーパーユーザー作成
+    Step 19: docker-compose up でサーバー起動
+    Step 20: ブラウザで動作確認
+
+---
+
+## 今後の予定（TODO）更新
+
+- [x] forms.py の作成（入力フォーム）
+- [x] views.py の作成（画面ロジック・CRUD操作）
+- [x] URL定義の作成（satellite/urls.py）
+- [x] HTMLテンプレートの作成（ダッシュボード・コマンド・テレメトリ画面）
+- [x] admin.py の設定（Django管理画面）
+- [ ] サンプルデータの投入
+- [ ] 本番URLへデプロイ
+
+---
+
 ## 作成者
 
 宇宙関連の地上システム開発に向けた、Python（Django）プロジェクトです。
