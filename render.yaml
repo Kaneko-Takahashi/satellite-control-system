@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: satellite-control-system
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn config.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: "0"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.11.6"

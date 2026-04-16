@@ -12,7 +12,7 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get("DEBUG", "1") == "1"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 
 # --- Applications ---
 INSTALLED_APPS = [

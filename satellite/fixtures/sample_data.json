@@ -1,0 +1,388 @@
+[
+    {
+      "model": "satellite.satellite",
+      "pk": 1,
+      "fields": {
+        "name": "HAYABUSA-X1",
+        "satellite_id": "SAT-001",
+        "orbit_type": "LEO",
+        "status": "active",
+        "launched_at": "2024-01-15T09:00:00Z",
+        "created_at": "2024-01-15T09:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.satellite",
+      "pk": 2,
+      "fields": {
+        "name": "MIZUKI-S2",
+        "satellite_id": "SAT-002",
+        "orbit_type": "MEO",
+        "status": "standby",
+        "launched_at": "2024-03-20T06:30:00Z",
+        "created_at": "2024-03-20T06:30:00Z"
+      }
+    },
+    {
+      "model": "satellite.satellite",
+      "pk": 3,
+      "fields": {
+        "name": "TSUBAME-R3",
+        "satellite_id": "SAT-003",
+        "orbit_type": "GEO",
+        "status": "maintenance",
+        "launched_at": "2023-11-01T12:00:00Z",
+        "created_at": "2023-11-01T12:00:00Z"
+      }
+    },
+  
+    {
+      "model": "satellite.command",
+      "pk": 1,
+      "fields": {
+        "satellite": 1,
+        "command_type": "attitude",
+        "command_code": "ATT-ADJUST-001",
+        "parameters": "{\"roll\": 0.5, \"pitch\": -0.3, \"yaw\": 1.2}",
+        "status": "executed",
+        "operator": "Tanaka",
+        "sent_at": "2025-01-10T08:30:00Z",
+        "created_at": "2025-01-10T08:00:00Z",
+        "updated_at": "2025-01-10T08:35:00Z"
+      }
+    },
+    {
+      "model": "satellite.command",
+      "pk": 2,
+      "fields": {
+        "satellite": 1,
+        "command_type": "power",
+        "command_code": "PWR-SOLAR-ON",
+        "parameters": "{\"panel\": \"A\", \"mode\": \"full\"}",
+        "status": "acknowledged",
+        "operator": "Suzuki",
+        "sent_at": "2025-01-11T10:00:00Z",
+        "created_at": "2025-01-11T09:50:00Z",
+        "updated_at": "2025-01-11T10:05:00Z"
+      }
+    },
+    {
+      "model": "satellite.command",
+      "pk": 3,
+      "fields": {
+        "satellite": 1,
+        "command_type": "payload",
+        "command_code": "PLD-CAM-CAPTURE",
+        "parameters": "{\"target\": \"Tokyo Bay\", \"resolution\": \"high\"}",
+        "status": "pending",
+        "operator": "Yamamoto",
+        "sent_at": null,
+        "created_at": "2025-01-12T14:00:00Z",
+        "updated_at": "2025-01-12T14:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.command",
+      "pk": 4,
+      "fields": {
+        "satellite": 2,
+        "command_type": "communication",
+        "command_code": "COM-FREQ-CHANGE",
+        "parameters": "{\"frequency\": \"8.2GHz\", \"bandwidth\": \"20MHz\"}",
+        "status": "sent",
+        "operator": "Tanaka",
+        "sent_at": "2025-01-10T15:00:00Z",
+        "created_at": "2025-01-10T14:45:00Z",
+        "updated_at": "2025-01-10T15:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.command",
+      "pk": 5,
+      "fields": {
+        "satellite": 2,
+        "command_type": "orbit",
+        "command_code": "ORB-BOOST-001",
+        "parameters": "{\"delta_v\": 0.5, \"direction\": \"prograde\"}",
+        "status": "executed",
+        "operator": "Suzuki",
+        "sent_at": "2025-01-09T20:00:00Z",
+        "created_at": "2025-01-09T19:30:00Z",
+        "updated_at": "2025-01-09T20:10:00Z"
+      }
+    },
+    {
+      "model": "satellite.command",
+      "pk": 6,
+      "fields": {
+        "satellite": 3,
+        "command_type": "thermal",
+        "command_code": "THM-HEATER-ON",
+        "parameters": "{\"zone\": \"battery\", \"target_temp\": 15.0}",
+        "status": "executed",
+        "operator": "Yamamoto",
+        "sent_at": "2025-01-08T03:00:00Z",
+        "created_at": "2025-01-08T02:45:00Z",
+        "updated_at": "2025-01-08T03:10:00Z"
+      }
+    },
+    {
+      "model": "satellite.command",
+      "pk": 7,
+      "fields": {
+        "satellite": 3,
+        "command_type": "maintenance",
+        "command_code": "MNT-DIAG-FULL",
+        "parameters": "{\"scope\": \"all_subsystems\"}",
+        "status": "failed",
+        "operator": "Tanaka",
+        "sent_at": "2025-01-11T22:00:00Z",
+        "created_at": "2025-01-11T21:50:00Z",
+        "updated_at": "2025-01-11T22:15:00Z"
+      }
+    },
+    {
+      "model": "satellite.command",
+      "pk": 8,
+      "fields": {
+        "satellite": 3,
+        "command_type": "power",
+        "command_code": "PWR-BATT-CHECK",
+        "parameters": "{\"cell\": \"all\", \"deep_scan\": true}",
+        "status": "pending",
+        "operator": "Suzuki",
+        "sent_at": null,
+        "created_at": "2025-01-12T16:00:00Z",
+        "updated_at": "2025-01-12T16:00:00Z"
+      }
+    },
+  
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 1,
+      "fields": {
+        "satellite": 1,
+        "temperature_battery": 22.5,
+        "temperature_solar_panel": 65.3,
+        "temperature_payload": 18.7,
+        "voltage_bus": 28.1,
+        "current_bus": 4.2,
+        "power_generation": 135.0,
+        "attitude_roll": 0.02,
+        "attitude_pitch": -0.01,
+        "attitude_yaw": 0.03,
+        "health_status": "nominal",
+        "received_at": "2025-01-12T10:00:00Z",
+        "created_at": "2025-01-12T10:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 2,
+      "fields": {
+        "satellite": 1,
+        "temperature_battery": 23.1,
+        "temperature_solar_panel": 68.7,
+        "temperature_payload": 19.2,
+        "voltage_bus": 28.0,
+        "current_bus": 4.3,
+        "power_generation": 137.5,
+        "attitude_roll": 0.01,
+        "attitude_pitch": 0.00,
+        "attitude_yaw": 0.02,
+        "health_status": "nominal",
+        "received_at": "2025-01-12T11:00:00Z",
+        "created_at": "2025-01-12T11:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 3,
+      "fields": {
+        "satellite": 1,
+        "temperature_battery": 24.0,
+        "temperature_solar_panel": 72.1,
+        "temperature_payload": 19.8,
+        "voltage_bus": 27.9,
+        "current_bus": 4.5,
+        "power_generation": 140.2,
+        "attitude_roll": 0.03,
+        "attitude_pitch": -0.02,
+        "attitude_yaw": 0.01,
+        "health_status": "nominal",
+        "received_at": "2025-01-12T12:00:00Z",
+        "created_at": "2025-01-12T12:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 4,
+      "fields": {
+        "satellite": 1,
+        "temperature_battery": 25.8,
+        "temperature_solar_panel": 78.4,
+        "temperature_payload": 21.3,
+        "voltage_bus": 27.5,
+        "current_bus": 5.1,
+        "power_generation": 132.0,
+        "attitude_roll": 0.15,
+        "attitude_pitch": -0.08,
+        "attitude_yaw": 0.22,
+        "health_status": "warning",
+        "received_at": "2025-01-12T13:00:00Z",
+        "created_at": "2025-01-12T13:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 5,
+      "fields": {
+        "satellite": 2,
+        "temperature_battery": 20.1,
+        "temperature_solar_panel": 55.2,
+        "temperature_payload": 17.0,
+        "voltage_bus": 28.5,
+        "current_bus": 3.8,
+        "power_generation": 120.0,
+        "attitude_roll": 0.00,
+        "attitude_pitch": 0.01,
+        "attitude_yaw": -0.01,
+        "health_status": "nominal",
+        "received_at": "2025-01-12T10:00:00Z",
+        "created_at": "2025-01-12T10:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 6,
+      "fields": {
+        "satellite": 2,
+        "temperature_battery": 20.5,
+        "temperature_solar_panel": 57.8,
+        "temperature_payload": 17.3,
+        "voltage_bus": 28.4,
+        "current_bus": 3.9,
+        "power_generation": 122.5,
+        "attitude_roll": -0.01,
+        "attitude_pitch": 0.02,
+        "attitude_yaw": 0.00,
+        "health_status": "nominal",
+        "received_at": "2025-01-12T11:00:00Z",
+        "created_at": "2025-01-12T11:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 7,
+      "fields": {
+        "satellite": 2,
+        "temperature_battery": 21.2,
+        "temperature_solar_panel": 60.1,
+        "temperature_payload": 17.8,
+        "voltage_bus": 28.3,
+        "current_bus": 4.0,
+        "power_generation": 125.0,
+        "attitude_roll": 0.01,
+        "attitude_pitch": -0.01,
+        "attitude_yaw": 0.01,
+        "health_status": "nominal",
+        "received_at": "2025-01-12T12:00:00Z",
+        "created_at": "2025-01-12T12:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 8,
+      "fields": {
+        "satellite": 3,
+        "temperature_battery": 10.2,
+        "temperature_solar_panel": 45.0,
+        "temperature_payload": 12.5,
+        "voltage_bus": 26.0,
+        "current_bus": 5.8,
+        "power_generation": 95.0,
+        "attitude_roll": 1.20,
+        "attitude_pitch": -0.85,
+        "attitude_yaw": 2.10,
+        "health_status": "warning",
+        "received_at": "2025-01-12T10:00:00Z",
+        "created_at": "2025-01-12T10:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 9,
+      "fields": {
+        "satellite": 3,
+        "temperature_battery": 8.5,
+        "temperature_solar_panel": 40.2,
+        "temperature_payload": 10.1,
+        "voltage_bus": 25.2,
+        "current_bus": 6.2,
+        "power_generation": 88.0,
+        "attitude_roll": 1.50,
+        "attitude_pitch": -1.10,
+        "attitude_yaw": 2.50,
+        "health_status": "critical",
+        "received_at": "2025-01-12T11:00:00Z",
+        "created_at": "2025-01-12T11:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 10,
+      "fields": {
+        "satellite": 3,
+        "temperature_battery": 9.0,
+        "temperature_solar_panel": 42.5,
+        "temperature_payload": 11.0,
+        "voltage_bus": 25.5,
+        "current_bus": 6.0,
+        "power_generation": 90.5,
+        "attitude_roll": 1.35,
+        "attitude_pitch": -0.95,
+        "attitude_yaw": 2.30,
+        "health_status": "warning",
+        "received_at": "2025-01-12T12:00:00Z",
+        "created_at": "2025-01-12T12:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 11,
+      "fields": {
+        "satellite": 3,
+        "temperature_battery": 7.2,
+        "temperature_solar_panel": 38.0,
+        "temperature_payload": 8.5,
+        "voltage_bus": 24.8,
+        "current_bus": 6.5,
+        "power_generation": 82.0,
+        "attitude_roll": 1.80,
+        "attitude_pitch": -1.30,
+        "attitude_yaw": 3.00,
+        "health_status": "critical",
+        "received_at": "2025-01-12T13:00:00Z",
+        "created_at": "2025-01-12T13:00:00Z"
+      }
+    },
+    {
+      "model": "satellite.telemetrydata",
+      "pk": 12,
+      "fields": {
+        "satellite": 3,
+        "temperature_battery": 9.8,
+        "temperature_solar_panel": 43.5,
+        "temperature_payload": 11.8,
+        "voltage_bus": 25.8,
+        "current_bus": 5.9,
+        "power_generation": 92.0,
+        "attitude_roll": 1.25,
+        "attitude_pitch": -0.80,
+        "attitude_yaw": 2.15,
+        "health_status": "warning",
+        "received_at": "2025-01-12T14:00:00Z",
+        "created_at": "2025-01-12T14:00:00Z"
+      }
+    }
+  ]
