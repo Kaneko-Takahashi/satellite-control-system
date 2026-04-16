@@ -1,7 +1,10 @@
 # Satellite Control System
 
+<p align="center">
+  <img src="static/images/logo.png" alt="Satellite Control System Logo" width="200">
+</p>
+
 Satellite telemetry and command management web application.
-Built with Python / Django as a learning project.
 
 衛星へのコマンド送信・テレメトリデータ受信を管理するWebアプリケーションです。
 Python（Django）のプロジェクトとして作成しました。
